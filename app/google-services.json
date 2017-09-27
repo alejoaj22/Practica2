@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "747451095536",
+    "project_id": "practica2-144ce"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:747451095536:android:8b02b7c2b9776db8",
+        "android_client_info": {
+          "package_name": "com.example.alejo.practica2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "747451095536-d6i6o5h6j1pkf9i1gt9qimdcnctcmoht.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.alejo.practica2",
+            "certificate_hash": "5db94860b5fc0ac8dcbd54341551c7e30b2cfeec"
+          }
+        },
+        {
+          "client_id": "747451095536-osv0sd523gbpfqtit689q5359dajvobj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7_HsfQeJsCHFNnAkgIL-oL3bESnvnH_I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

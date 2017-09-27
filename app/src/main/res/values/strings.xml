@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Practica2</string>
+    <string name="correo">Correo:</string>
+    <string name="contraseña">Contraseña:</string>
+    <string name="iniciar">Iniciar sesión</string>
+    <string name="registrar">Registrar</string>
+    <string name="repecontraseña">Repetir contraseña</string>
+    <string name="miperfil">Mi perfil</string>
+    <string name="cerrarSes">Cerrar sesión</string>
+
+    <string name="facebook_app_id">119928942004743</string>
+    <string name="fb_login_protocol_scheme">fb119928942004743</string>
+    <string name="principal">Principal</string>
+
+
+</resources>
