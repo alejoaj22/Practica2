@@ -3,9 +3,11 @@ package com.example.alejo.practica2;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,10 +25,14 @@ import java.util.Arrays;
 import java.util.regex.Pattern;
 
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -38,14 +44,37 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class LoguinActivity extends AppCompatActivity {
     String contraseñaR,correoR,contraseñai,correoi,contraseñarr,correorr,correomain,contraseñamain;
     EditText eCorreo,eContraeña;
-    String mainr;
+    String personPhotoUrl, personName ="";
+    Uri urlphoto;
     int main;
     int mainR = 0;
+    int oplong;
 
+
+
+    String facebook_id;
+    String f_name;
+    String m_name;
+    String l_name;
+    String full_name;
+    String profile_image;
+    String email_id;
+    String gender;
+
+
+
+
+
+
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
 
     LoginButton loginButton;
     CallbackManager callbackManager;
@@ -108,7 +137,8 @@ public class LoguinActivity extends AppCompatActivity {
         loginButton = (LoginButton) findViewById(R.id.login_button);
 
         loginButton.setReadPermissions(Arrays.asList(
-                "email"
+                "email",
+                "public_profile"
         ));
 
         callbackManager = CallbackManager.Factory.create();
@@ -118,6 +148,32 @@ public class LoguinActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 Toast.makeText(getApplicationContext(),"Login Exitosooo",Toast.LENGTH_SHORT).show();
 
+                GraphRequest request =  GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject me, GraphResponse response) {
+
+                                if (response.getError() != null) {
+                                    // handle error
+                                } else {
+
+                                    String user_lastname = me.optString("last_name");
+                                    full_name = me.optString("first_name");
+                                    m_name = me.optString("username");
+                                    email_id =response.getJSONObject().optString("email");
+                                    Log.d("correo del login",email_id);
+                                    Log.d("full name",full_name);
+
+                                }
+                            }
+                        });
+
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "last_name,first_name,email");
+                request.setParameters(parameters);
+                request.executeAsync();
+                //setFacebookData(loginResult);
+                goMainActivity(1);
             }
 
             @Override
@@ -182,13 +238,22 @@ public class LoguinActivity extends AppCompatActivity {
         if(mainR == 2222){
             Log.d("correo del 2222",correoR);
             Log.d("contraseña del 2222",contraseñaR);
+            prefs = getSharedPreferences("Mis preferencias",MODE_PRIVATE);
+            oplong = 2;
+
+            editor = prefs.edit();
+            editor.putInt("oplong",oplong);
         }
         if (correoi.equals(correoR) && contraseñai.equals(contraseñaR)) {
-            Intent intent = new Intent(LoguinActivity.this, MainActivity.class);
-            intent.putExtra("correo", correoR);
-            intent.putExtra("contraseña", contraseñaR);
-            startActivity(intent);
-            finish();
+
+
+            prefs = getSharedPreferences("Mis preferencias",MODE_PRIVATE);
+            editor = prefs.edit();
+            oplong = 1;
+            editor.putInt("oplong",oplong);
+
+            goMainActivity(2);
+
         }
         else{
             AlertDialog ventana = new AlertDialog.Builder(this).create();
@@ -205,10 +270,35 @@ public class LoguinActivity extends AppCompatActivity {
         return pattern.matcher(email).matches();
     }
 
-    public void getMainActivity(){
+    public void goMainActivity(int option){
         // opcion 1 que es facebook extraer la foto y el correo
         // opción 2 solo mandar el correo y la contraseña
         // opcion 3 el correo con google
+        Intent intent = new Intent(LoguinActivity.this, MainActivity.class);
+
+        if(option == 1){
+            intent.putExtra("correo",email_id);
+            intent.putExtra("nombre",full_name);
+            intent.putExtra("foto",profile_image);
+        }
+
+        else if(option == 2){
+            intent.putExtra("correo", correoR);
+            intent.putExtra("contraseña", contraseñaR);
+        }
+        else if(option == 3) {
+            intent.putExtra("correo", correoR);
+            intent.putExtra("contraseña", contraseñaR);
+            intent.putExtra("foto", personPhotoUrl);
+            intent.putExtra("nombre", personName);
+        }
+        prefs = getSharedPreferences("Mis preferencias",MODE_PRIVATE);
+        editor = prefs.edit();
+        editor.putInt("oplong",oplong);
+
+        startActivity(intent);
+        finish();
+
     }
 
     // metodo de google
@@ -224,7 +314,14 @@ public class LoguinActivity extends AppCompatActivity {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
             Toast.makeText(getApplicationContext(),acct.getDisplayName(),Toast.LENGTH_SHORT).show();
-            ///goMainActivity();
+
+            personName = acct.getDisplayName();
+            urlphoto = acct.getPhotoUrl();
+
+            personPhotoUrl = urlphoto.toString().trim();
+            correoR = acct.getEmail();
+
+            goMainActivity(3);
             // ir a la actividad Main Activity
             // Ojo que el loguelo de google no va todavía
             //mStatusTextView.setText(getString(R.string.signed_in_fmt, acct.getDisplayName()));
@@ -232,5 +329,50 @@ public class LoguinActivity extends AppCompatActivity {
             // Signed out, show unauthenticated UI.
 
         }
+    }
+
+    /////////////////////////////////////////////////
+    private void setFacebookData(final LoginResult loginResult)
+    {
+        GraphRequest request = GraphRequest.newMeRequest(
+                loginResult.getAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        // Application code
+                        try {
+                            Log.i("Response",response.toString());
+
+                            email_id = response.getJSONObject().getString("email");
+                            full_name = response.getJSONObject().getString("first_name");
+                            String lastName = response.getJSONObject().getString("last_name");
+                            String gender = response.getJSONObject().getString("gender");
+
+
+
+                            Profile profile = Profile.getCurrentProfile();
+                            String id = profile.getId();
+                            profile_image = profile.getLinkUri().toString();
+                            Log.i("Link",profile_image);
+                            if (Profile.getCurrentProfile()!=null)
+                            {
+                                Log.i("Login", "ProfilePic" + Profile.getCurrentProfile().getProfilePictureUri(200, 200));
+                            }
+
+                            Log.i("Login" + "Email", email_id);
+                            Log.i("Login"+ "FirstName", full_name);
+                            Log.i("Login" + "LastName", lastName);
+                            Log.i("Login" + "Gender", gender);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,email,first_name,last_name,gender");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 }

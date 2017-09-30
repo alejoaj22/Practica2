@@ -16,6 +16,7 @@
             android:layout_height="0dp"
             android:layout_weight="4.5"
             android:src="@drawable/people"
+            android:id="@+id/foto"
             />
 
         <TextView
@@ -23,7 +24,7 @@
             android:layout_height="0dp"
             android:layout_weight="4.5"
             android:text="@string/miperfil"
-            android:id="@+id/texto"
+            android:id="@+id/nombre"
             android:gravity="center"/>
         <Button
             android:layout_width="match_parent"

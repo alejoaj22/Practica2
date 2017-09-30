@@ -1,6 +1,7 @@
 package com.example.alejo.practica2;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,11 +22,17 @@ import com.google.android.gms.common.api.Status;
 
 public class MainActivity extends AppCompatActivity {
     String correo="",contraseña="";
-    String correoR, contraseñaR;
+    String correoR, contraseñaR,nombreR;
+    String fotoR="";
     int main=2222;
 
-
+    int oplog;
     GoogleApiClient mGoogleApiClient;
+
+
+
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
 
 
     @Override
@@ -35,10 +42,12 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         correoR = extras.getString("correo");
+        //Log.d("correo del main",correoR);
         contraseñaR = extras.getString("contraseña");
-
-        Log.d("correo del main",correoR);
-        Log.d("contraseña del main",contraseñaR);
+        fotoR = extras.getString("foto");
+        nombreR = extras.getString("nombre");
+        //Log.d("correo del main",correoR);
+        //Log.d("contraseña del main",contraseñaR);
 
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -78,9 +87,18 @@ public class MainActivity extends AppCompatActivity {
                 intent = new Intent(MainActivity.this,PerfilActivity.class);
                 intent.putExtra("correo", correoR);
                 intent.putExtra("contraseña", contraseñaR);
+                intent.putExtra("foto",fotoR);
+                intent.putExtra("nombre",nombreR);
                 startActivity(intent);
                 break;
             case R.id.mCerrar:
+
+                prefs = getSharedPreferences("Mis preferencias",MODE_PRIVATE);
+                editor = prefs.edit();
+
+                editor.putInt("oplog",oplog);
+                editor.commit();
+
                 ///////////////////////////////cerrar sesión de google
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                         new ResultCallback<Status>() {
@@ -92,6 +110,9 @@ public class MainActivity extends AppCompatActivity {
                 ////////////////////////////////////////////////
                 LoginManager.getInstance().logOut(); //Cierra sesión en facebook
                 intent = new Intent(MainActivity.this,LoguinActivity.class);
+
+
+
                 intent.putExtra("correomain", correoR);
                 intent.putExtra("contraseñamain", contraseñaR);
                 intent.putExtra("main", main);
