@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -67,7 +70,9 @@ public class LoguinActivity extends AppCompatActivity {
     String profile_image;
     String email_id;
     String gender;
+    String id_facebook;
 
+    Bitmap imagen;
 
 
 
@@ -91,7 +96,20 @@ public class LoguinActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loguin);
 
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.example.alejo.practica2",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
 
+        } catch (NoSuchAlgorithmException e) {
+
+        }
 
 
 
@@ -161,6 +179,7 @@ public class LoguinActivity extends AppCompatActivity {
                                     full_name = me.optString("first_name");
                                     m_name = me.optString("username");
                                     email_id =response.getJSONObject().optString("email");
+                                    id_facebook = response.getJSONObject().optString("id");
                                     Log.d("correo del login",email_id);
                                     Log.d("full name",full_name);
 
@@ -375,4 +394,5 @@ public class LoguinActivity extends AppCompatActivity {
         request.setParameters(parameters);
         request.executeAsync();
     }
+    
 }

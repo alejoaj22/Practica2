@@ -24,6 +24,10 @@ public class SplashActivity extends AppCompatActivity {
         final int optlog  = prefs.getInt("optlog",0);
 
 
+
+
+
+
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         TimerTask task = new TimerTask() {
             @Override
