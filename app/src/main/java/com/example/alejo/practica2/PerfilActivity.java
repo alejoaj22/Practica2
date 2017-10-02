@@ -48,7 +48,7 @@ public class PerfilActivity extends AppCompatActivity {
         nombre = extras.getString("nombre");
 
 
-        texto.setText("Correo: " + correoR + "\nNombre: " + nombre+ foto);
+        texto.setText("Correo: " + correoR + "\nNombre: " + nombre);
 
 
 
