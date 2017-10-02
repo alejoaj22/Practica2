@@ -394,5 +394,5 @@ public class LoguinActivity extends AppCompatActivity {
         request.setParameters(parameters);
         request.executeAsync();
     }
-    
+
 }
