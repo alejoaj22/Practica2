@@ -166,6 +166,56 @@ public class LoguinActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
                 Toast.makeText(getApplicationContext(),"Login Exitosooo",Toast.LENGTH_SHORT).show();
 
+                //progress.show();
+                Profile profile = Profile.getCurrentProfile();
+                if (profile != null) {
+                    facebook_id=profile.getId();
+                    f_name=profile.getFirstName();
+                    m_name=profile.getMiddleName();
+                    l_name=profile.getLastName();
+                    full_name=profile.getName();
+                    profile_image=profile.getProfilePictureUri(400, 400).toString();
+                }
+                //Toast.makeText(FacebookLogin.this,"Wait...",Toast.LENGTH_SHORT).show();
+                GraphRequest request = GraphRequest.newMeRequest(AccessToken.getCurrentAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                try {
+                                    email_id=object.getString("email");
+                                    gender=object.getString("gender");
+                                    String profile_name=object.getString("name");
+                                    //long fb_id=object.getLong("id"); //use this for logout
+                                    //Start new activity or use this info in your project.
+                                    /*Intent i=new Intent(FacebookLogin.this, LoginSuccess.class);
+                                    i.putExtra("type","facebook");
+                                    i.putExtra("facebook_id",facebook_id);
+                                    i.putExtra("f_name",f_name);
+                                    i.putExtra("m_name",m_name);
+                                    i.putExtra("l_name",l_name);
+                                    i.putExtra("full_name",full_name);
+                                    i.putExtra("profile_image",profile_image);
+                                    i.putExtra("email_id",email_id);
+                                    i.putExtra("gender",gender);
+
+                                    progress.dismiss();
+                                    startActivity(i);
+                                    finish();
+
+                                    */
+                                } catch (JSONException e) {
+                                    // TODO Auto-generated catch block
+                                    //  e.printStackTrace();
+                                }
+
+                            }
+
+                        });
+
+                request.executeAsync();
+
+
+                /*      Esto funciona pero no del todo bien
                 GraphRequest request =  GraphRequest.newMeRequest(
                         loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                             @Override
@@ -192,6 +242,8 @@ public class LoguinActivity extends AppCompatActivity {
                 request.setParameters(parameters);
                 request.executeAsync();
                 //setFacebookData(loginResult);
+
+                */
                 goMainActivity(1);
             }
 
@@ -296,7 +348,8 @@ public class LoguinActivity extends AppCompatActivity {
         Intent intent = new Intent(LoguinActivity.this, MainActivity.class);
 
         if(option == 1){
-            intent.putExtra("correo",email_id);
+            intent.putExtra("correo",facebook_id);
+
             intent.putExtra("nombre",full_name);
             intent.putExtra("foto",profile_image);
         }
