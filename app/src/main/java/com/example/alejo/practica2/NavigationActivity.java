@@ -46,12 +46,6 @@ public class NavigationActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        fm = getSupportFragmentManager();
-        ft = fm.beginTransaction();
-
-        SuperFragment frangment = new SuperFragment();
-        ft.add(R.id.frame, frangment).commit();
     }
 
     @Override
@@ -93,13 +87,10 @@ public class NavigationActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            
-            FlashFragment fragment = new FlashFragment();
-            ft.replace(R.id.frame,fragment).commit();
+
         } else if (id == R.id.nav_gallery) {
 
-            SuperFragment fragment = new SuperFragment();
-            ft.replace(R.id.frame,fragment).commit();
+
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -112,7 +103,7 @@ public class NavigationActivity extends AppCompatActivity
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        //drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }
