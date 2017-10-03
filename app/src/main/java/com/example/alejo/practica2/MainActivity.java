@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
                 ///////////////////////////////cerrar sesión de google
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+
                         new ResultCallback<Status>() {
                             @Override
                             public void onResult(Status status) {
@@ -116,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("correomain", correoR);
                 intent.putExtra("contraseñamain", contraseñaR);
                 intent.putExtra("main", main);
+                intent.putExtra("nombremain", nombreR);
                 startActivity(intent);
                 finish();
                 break;

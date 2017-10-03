@@ -52,7 +52,7 @@ import org.json.JSONObject;
 
 
 public class LoguinActivity extends AppCompatActivity {
-    String contraseñaR,correoR,contraseñai,correoi,contraseñarr,correorr,correomain,contraseñamain;
+    String contraseñaR,correoR,nombreR,contraseñai,correoi,contraseñarr,correorr,correomain,contraseñamain;
     EditText eCorreo,eContraeña;
     String personPhotoUrl, personName ="";
     Uri urlphoto;
@@ -145,6 +145,7 @@ public class LoguinActivity extends AppCompatActivity {
         if(extras!=null){
             correoR = extras.getString("correomain");
             contraseñaR = extras.getString("contraseñamain");
+            nombreR = extras.getString("nombremain");
         }
 
 
@@ -254,9 +255,11 @@ public class LoguinActivity extends AppCompatActivity {
         if(requestCode == 1234 && resultCode == RESULT_OK){
             correoR = data.getExtras().getString("correo");
             contraseñaR = data.getExtras().getString("contraseña");
+            nombreR = data.getExtras().getString("nombre");
 
             Log.d("correo",correoR);
             Log.d("contraseña",contraseñaR);
+            Log.d("nombre",nombreR);
         }else if (requestCode == 5678){
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
@@ -327,6 +330,7 @@ public class LoguinActivity extends AppCompatActivity {
         else if(option == 2){
             intent.putExtra("correo", correoR);
             intent.putExtra("contraseña", contraseñaR);
+            intent.putExtra("nombre",nombreR);
         }
         else if(option == 3) {
             intent.putExtra("correo", correoR);
