@@ -49,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
         //Log.d("correo del main",correoR);
         //Log.d("contraseña del main",contraseñaR);
 
+        prefs = getSharedPreferences("Mis preferencias",MODE_PRIVATE);
+
+        String hola = prefs.getString("hola","");
+        Toast.makeText(getApplicationContext(),"Dure mas "+hola,Toast.LENGTH_LONG).show();
+
+
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()

@@ -71,7 +71,7 @@ public class LoguinActivity extends AppCompatActivity {
     String email_id;
     String gender;
     String id_facebook;
-
+    String hola;
     Bitmap imagen;
 
 
@@ -340,8 +340,10 @@ public class LoguinActivity extends AppCompatActivity {
         }
         prefs = getSharedPreferences("Mis preferencias",MODE_PRIVATE);
         editor = prefs.edit();
+        hola= "hola esto es una prueba";
         editor.putInt("oplong",oplong);
-
+        editor.putString("hola",hola);
+        editor.commit();
         startActivity(intent);
         finish();
 
