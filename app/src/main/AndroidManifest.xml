@@ -39,11 +39,15 @@
         <activity
             android:name=".TabeActivity"
             android:label="@string/title_activity_tabe"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".NavigationActivity"
             android:label="@string/title_activity_navigation"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <application android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity android:name=".BottonNaviActvity"></activity>
     </application>
 
 </manifest>

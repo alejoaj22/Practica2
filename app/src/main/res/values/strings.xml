@@ -8,7 +8,7 @@
     <string name="miperfil">Mi perfil</string>
     <string name="cerrarSes">Cerrar sesión</string>
 
-    <string name="facebook_app_id">119928942004743</string>
+    <string name="facebook_app_id">1525918107453884</string>
     <string name="fb_login_protocol_scheme">fb119928942004743</string>
     <string name="principal">Principal</string>
     <string name="title_activity_class">ClassActivity</string>
@@ -28,6 +28,9 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="menu_notifications">camara</string>
+    <string name="menu_search">buscar</string>
+    <string name="menu_home">home</string>
 
 
 </resources>

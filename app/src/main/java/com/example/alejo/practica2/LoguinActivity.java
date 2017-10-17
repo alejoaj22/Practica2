@@ -141,12 +141,14 @@ public class LoguinActivity extends AppCompatActivity {
                                             }
         });
                 ///////////////////////////////////////////////////////////////////////////////
-                Bundle extras = getIntent().getExtras();
+             /*   Bundle extras = getIntent().getExtras();
         if(extras!=null){
             correoR = extras.getString("correomain");
             contraseñaR = extras.getString("contraseñamain");
             nombreR = extras.getString("nombremain");
-        }
+        }*/
+
+
 
 
         eCorreo = (EditText) findViewById(R.id.eCorreo);

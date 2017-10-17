@@ -8,4 +8,9 @@
     tools:context="com.example.alejo.practica2.NavigationActivity"
     tools:showIn="@layout/app_bar_navigation">
 
+
+
+
+    
+
 </android.support.constraint.ConstraintLayout>
