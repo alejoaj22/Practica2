@@ -29,6 +29,7 @@ public class BottonNaviActvity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menu_home:
+                        ft = fm.beginTransaction();
                         PerfilFragment fragment = new PerfilFragment();
                         ft.replace(R.id.frame,fragment).commit();
                         // TODO

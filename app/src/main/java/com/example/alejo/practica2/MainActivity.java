@@ -145,7 +145,9 @@ public class MainActivity extends AppCompatActivity{
                 intent.putExtra("foto",fotoR);
                 intent.putExtra("nombre",nombreR);
                 startActivity(intent);
+
                 //PerfilFragment fragment = new PerfilFragment();
+                //ft = fm.beginTransaction();
                 //ft.replace(R.id.frame,fragment).commit();
                 //ft.replace(R.id.frame,fragment);
                 break;
